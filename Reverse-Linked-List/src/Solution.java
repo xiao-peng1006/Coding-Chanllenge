@@ -41,7 +41,7 @@ public class Solution {
             cur = cur.next;
         }
 
-        cur = sol.reverseList(head);;
+        cur = sol.reverseList(head);
         while (cur != null) {
             sb.append(String.valueOf(cur.val) + "->");
             cur = cur.next;
