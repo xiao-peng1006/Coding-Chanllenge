@@ -12,7 +12,6 @@ class Solution {
      * @return
      */
     public int[][] kClosest(int[][] points, int K) {
-
         int[] distances = new int[points.length];
         for (int i = 0; i < points.length; i++)
             distances[i] = distance(points[i]);
@@ -22,12 +21,11 @@ class Solution {
 
         int[][] res = new int[K][2];
         int count = 0;
-        for (int[] point:points) {
+        for (int[] point : points) {
             if (distance(point) <= distK)
                 res[count++] = point;
         }
         return res;
-
     }
 
     public int distance(int[] point) {
