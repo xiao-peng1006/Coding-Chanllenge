@@ -17,9 +17,13 @@ class Solution {
         int start = 0, end = -1;
         while (start < s.length() && end+1 < s.length()) {
             if (!set.contains(s.charAt(end+1))){
+                // If the character does not exist in the set,
+                // add it into the set and move to next portion by increase end by 1
                 end++;
                 set.add(s.charAt(end));
             } else {
+                // If the end character already exists in the set,
+                // keep removing character at start until getting the same character
                 set.remove(s.charAt(start));
                 start++;
             }
