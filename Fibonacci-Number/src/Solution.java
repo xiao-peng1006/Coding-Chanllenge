@@ -6,9 +6,18 @@ class Solution {
      * @return
      */
     public int fib(int N) {
-        if (N == 0) return 0;
-        if (N == 1) return 1;
-        return fib(N-1)+fib(N-2);
+        int n0 = 0, n1 = 1;
+        if (N == 0) return n0;
+        if (N == 1) return n1;
+        int count = 1;
+        int curr = 0;
+        while (N > count) {
+            curr = n0 + n1;
+            n0 = n1;
+            n1 = curr;
+            count++;
+        }
+        return curr;
     }
 
     public static void main(String[] args) {
