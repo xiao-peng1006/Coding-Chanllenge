@@ -3,29 +3,33 @@ import java.util.Arrays;
 import java.util.List;
 
 class MyHashMap {
-    int[] array;
+    int[][] array;
     /** Initialize your data structure here. */
     public MyHashMap() {
-        array = new int[1000000];
-        Arrays.fill(array, -1);
+        array = new int[1000][1000];
+        for (int i = 0; i < array.length; i++)
+            Arrays.fill(array[i], -1);
     }
 
     /** value will always be non-negative. */
     public void put(int key, int value) {
-        array[key] = value;
+        int hashedKey = key % 1000;
+        array[hashedKey][key/1000] = value;
     }
 
     /** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */
     public int get(int key) {
-        if (array[key] == -1)
+        int hashedKey = key % 1000;
+        if (array[hashedKey][key/1000] == -1)
             return -1;
-        return array[key];
+        return array[hashedKey][key/1000];
     }
 
     /** Removes the mapping of the specified value key if this map contains a mapping for the key */
     public void remove(int key) {
-        if (array[key] != -1)
-            array[key] = -1;
+        int hashedKey = key % 1000;
+        if (array[hashedKey][key/1000] != -1)
+            array[hashedKey][key/1000] = -1;
     }
 
     public static void main(String[] args) {
