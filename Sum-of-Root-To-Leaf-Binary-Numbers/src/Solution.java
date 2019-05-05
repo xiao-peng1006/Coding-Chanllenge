@@ -19,22 +19,14 @@ class Solution {
         TreeNode(int x) { val = x; }
     }
 
-    int res;
     public int sumRootToLeaf(TreeNode root) {
-        dfs(root, "");
-        return res;
+        return dfs(root, 0);
     }
 
-    public void dfs(TreeNode node, String temp) {
-        if (node.left == null && node.right == null) {
-            res += Integer.parseInt(temp+node.val, 2);
-            return;
-        }
-
-        if (node.left != null)
-            dfs(node.left, temp+node.val);
-
-        if (node.right != null)
-            dfs(node.right, temp+node.val);
+    public int dfs(TreeNode node, int val) {
+        if (node == null)
+            return 0;
+        val = val*2 + node.val;
+        return (node.left == null && node.right == null) ? val : dfs(node.left, val) + dfs(node.right, val);
     }
 }
