@@ -11,27 +11,18 @@ class Solution {
      * @return
      */
     public int findJudge(int N, int[][] trust) {
-        if (trust == null || trust.length == 0) {
-            return 1;
-        }
-        HashMap<Integer, Integer> map = new HashMap<>();
-        List<Integer> list = new ArrayList<>();
-        for (int[] t : trust) {
-            map.put(t[1], map.getOrDefault(t[1], 0) + 1);
-            if (map.get(t[1]) == (N-1)) {
-                list.add(t[1]);
-            }
-        }
-
+        int[][] degree = new int[N+1][2];
         for (int[] t:trust) {
-            if (list.contains(t[0]))
-                list.remove((Object) t[0]);
+            degree[t[1]][0]++;
+            degree[t[0]][1]++;
         }
 
-        if (list.size() == 0)
-            return -1;
-        else
-            return list.get(0);
+        for (int i = 1; i <= N; i++) {
+            int[] d = degree[i];
+            if (d[0] == N-1 && d[1] == 0)
+                return i;
+        }
+        return -1;
     }
 
     public static void main(String[] args) {
