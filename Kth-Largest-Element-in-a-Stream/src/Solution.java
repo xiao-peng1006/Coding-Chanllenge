@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 class KthLargest {
 
@@ -10,20 +7,24 @@ class KthLargest {
      * @param k
      * @param nums
      */
-    List<Integer> nums;
-    int k;
+    PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+    int size;
+
     public KthLargest(int k, int[] nums) {
-        this.nums = new ArrayList<>();
+        this.size = k;
         for (int num:nums) {
-            this.nums.add(num);
+            add(num);
         }
-        this.k = k;
     }
 
     public int add(int val) {
-        nums.add(val);
-        Collections.sort(nums);
-        return nums.get(nums.size() - k);
+        if (minHeap.size() < size)
+            minHeap.offer(val);
+        else if (minHeap.peek() < val) {
+            minHeap.poll();
+            minHeap.offer(val);
+        }
+        return minHeap.peek();
     }
 
     public static void main(String[] args) {
