@@ -8,16 +8,34 @@ class Solution {
      * @return
      */
     public int maximumProduct(int[] nums) {
-        Arrays.sort(nums);
-        int len = nums.length;
-        if (nums[0] >= 0 || nums[len-1] <= 0) {
-            return nums[len-1]*nums[len-2]*nums[len-3];
-        }
+        int x0 = Integer.MAX_VALUE, x1 = Integer.MAX_VALUE;
+        int y0 = Integer.MIN_VALUE, y1 = Integer.MIN_VALUE, y2 = Integer.MIN_VALUE;
+        for (int num:nums) {
+            if (num < x1) {
+                if (num < x0) {
+                    x1 = x0;
+                    x0 = num;
+                } else {
+                    x1 = num;
+                }
+            }
 
-        if (nums[0]*nums[1] > nums[len-2]*nums[len-3])
-            return nums[0]*nums[1]*nums[len-1];
-        else
-            return nums[len-1]*nums[len-2]*nums[len-3];
+            if (num > y0) {
+                if (num > y1) {
+                    if (num > y2) {
+                        y0 = y1;
+                        y1 = y2;
+                        y2 = num;
+                    } else {
+                        y0 = y1;
+                        y1 = num;
+                    }
+                } else {
+                    y0 = num;
+                }
+            }
+        }
+        return Math.max(x0*x1*y2, y0*y1*y2);
     }
 
     public static void main(String[] args) {
