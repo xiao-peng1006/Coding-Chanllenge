@@ -19,31 +19,23 @@ class Solution {
         }
     }
 
-    int sum, count = 0;
+
     public int pathSum(TreeNode root, int sum) {
-        this.sum = sum;
-        dfs(root, 0, 0, new ArrayList<Integer>());
-        return count;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+        return helper(root, 0, sum, map);
     }
 
-    public void dfs(TreeNode node, int partialSum, int index, List<Integer> list) {
+    public int helper(TreeNode node, int currSum, int target, HashMap<Integer, Integer> map) {
         if (node == null)
-            return;
+            return 0;
 
-        partialSum += node.val;
+        currSum += node.val;
+        int res = map.getOrDefault(currSum - target, 0);
+        map.put(currSum, map.getOrDefault(currSum, 0) + 1);
 
-        if (partialSum == sum)
-            count++;
-        int temp = partialSum;
-        for (Object i: list.toArray()) {
-            temp -= (Integer) i;
-            if (temp == sum)
-                count++;
-        }
-
-        list.add(node.val);
-
-        dfs(node.left, partialSum, index + 1, new ArrayList<Integer>(list));
-        dfs(node.right, partialSum, index + 1, new ArrayList<Integer>(list));
+        res += helper(node.left, currSum, target, map) + helper(node.right, currSum, target, map);
+        map.put(currSum, map.get(currSum) - 1);
+        return res;
     }
 }
