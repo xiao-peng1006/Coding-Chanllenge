@@ -6,12 +6,17 @@ class Solution {
      * @return
      */
     public boolean checkPerfectNumber(int num) {
-        if (num == 0)
+        if (num == 1)
             return false;
-        int sum = 0;
-        for (int i = 1; i <= num/2; i++) {
-            if (num%i == 0) {
-                sum += i;
+        int sum = 1;
+        for (int i = 2; i*i < num; i++) {
+            if (num % i == 0) {
+                int r = num/i;
+                if (i == r) {
+                    sum += i;
+                } else {
+                    sum += i + r;
+                }
             }
         }
 
