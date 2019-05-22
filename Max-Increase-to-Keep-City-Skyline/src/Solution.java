@@ -12,8 +12,8 @@ class Solution {
         this.grid = grid;
         int res = 0;
         for (int i = 0; i < grid.length; i++) {
+            int rowMax = getMaxRow(i);
             for (int j = 0; j < grid[0].length; j++) {
-                int rowMax = getMaxRow(i);
                 int colMax = getMaxCol(j);
                 if (grid[i][j] == rowMax || grid[i][j] == colMax)
                     continue;
