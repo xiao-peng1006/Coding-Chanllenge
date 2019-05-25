@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 class Solution {
 
     /**
@@ -7,17 +9,17 @@ class Solution {
      * @return
      */
     public int[] dailyTemperatures(int[] T) {
-        for (int i = 0; i < T.length; i++) {
-            for (int j = i; j < T.length; j++) {
-                if (T[j] > T[i]) {
-                    T[i] = j - i;
-                    break;
-                }
-                if (j == T.length - 1 && T[j] <= T[i]) {
-                    T[i] = 0;
-                }
+        Stack<Integer> stack = new Stack<>();
+        int[] res = new int[T.length];
+        stack.push(0);
+        for (int i = 1; i < T.length; i++) {
+            while (!stack.isEmpty() && T[stack.peek()] < T[i]) {
+                res[stack.peek()] = i - stack.peek();
+                stack.pop();
             }
+            stack.push(i);
         }
-        return T;
+
+        return res;
     }
 }
