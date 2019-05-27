@@ -6,16 +6,19 @@ class Solution {
      * @return
      */
     public int singleNonDuplicate(int[] nums) {
-        int res = 0;
-        for (int i = 0; i < nums.length; i += 2) {
-            res += nums[i];
+        int l = 0;
+        int r = nums.length - 1;
+        while (l < r) {
+            int mid = l + (r - l) / 2;
+            if (mid == 0) return nums[mid];
+            // can be rewritten as "if (nums[mid] == nums[mid ^ 1])"
+            if ((mid % 2 == 0 && nums[mid] == nums[mid + 1]) || (mid % 2 != 0 && nums[mid] == nums[mid - 1])) {
+                l = mid + 1;
+            } else {
+                r = mid;
+            }
         }
-
-        for (int i = 1; i < nums.length; i += 2) {
-            res -= nums[i];
-        }
-
-        return res;
+        return nums[l];
     }
 
     public static void main(String[] args) {
