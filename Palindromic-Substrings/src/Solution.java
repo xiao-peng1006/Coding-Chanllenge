@@ -25,23 +25,13 @@ class Solution {
     private void helper(int start, int end) {
         if (start < 0 || end >= this.s.length())
             return;
-        String s = this.s.substring(start, end + 1);
-        if (!isPalindrome(s)) {
+
+        if (this.s.charAt(start) != this.s.charAt(end)) {
             return;
         }
+
         this.res++;
         helper(start - 1, end + 1);
-    }
-
-    private boolean isPalindrome(String s) {
-        int l = 0;
-        int r = s.length() - 1;
-        while (l < r) {
-            if (s.charAt(l) != s.charAt(r))
-                return false;
-            l++; r--;
-        }
-        return true;
     }
 
     public static void main(String[] args) {
