@@ -1,34 +1,22 @@
 class Solution {
-    int[] memo;
-
     public int maxProfit(int[] prices) {
-        this.memo = new int[prices.length + 1];
-        return dp(prices, 0);
-    }
-
-    public int dp(int[] prices, int start) {
-        if (prices.length == 0 || prices.length == 1 || start >= prices.length) {
+        if (prices.length == 0 || prices.length == 1) {
             return 0;
         }
 
-        if (prices.length == 2) {
-            return prices[1] > prices[0] ? prices[1] - prices[0] : 0;
+        int length = prices.length;
+        int[] hold = new int[length];
+        int[] sell = new int[length];
+        int[] cooldown = new int[length];
+        hold[0] = -prices[0];
+        sell[0] = 0;
+        cooldown[0] = 0;
+        for (int i = 1; i < length; i++) {
+            cooldown[i] = Math.max(sell[i - 1], cooldown[i - 1]);
+            hold[i] = Math.max(hold[i - 1], cooldown[i - 1] - prices[i]);
+            sell[i] = hold[i - 1] + prices[i];
         }
-
-        if (this.memo[start] != 0) {
-            return this.memo[start];
-        }
-
-        int res = 0;
-        for (int i = start; i < prices.length - 1; i++) {
-            for (int j = i + 1; j < prices.length; j++) {
-                if (prices[j] <= prices[i])
-                    continue;
-                res = Math.max(res, prices[j] - prices[i] + dp(prices, j + 2));
-            }
-        }
-        this.memo[start] = res;
-        return res;
+        return Math.max(sell[length - 1], cooldown[length - 1]);
     }
 
     public static void main(String[] args) {
