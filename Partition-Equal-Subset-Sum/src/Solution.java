@@ -1,6 +1,4 @@
 class Solution {
-    int[][] memo;
-
     public boolean canPartition(int[] nums) {
 
         int target = 0;
@@ -12,23 +10,19 @@ class Solution {
             return false;
 
         target = target / 2;
-        this.memo = new int[nums.length][target + 1];
-        return dp(nums, target, 0);
-    }
 
-    public boolean dp(int[] nums, int target, int index) {
-        if (target < 0 || index >= nums.length)
-            return false;
-
-        if (target == 0)
-            return true;
-
-        if (this.memo[index][target] != 0) {
-            return this.memo[index][target] == 1;
+        boolean[] memo = new boolean[target + 1];
+        for (int i = 0; i < nums.length; i++) {
+            memo[i] = nums[0] == i;
         }
 
-        this.memo[index][target] = dp(nums, target, index + 1) || dp(nums, target - nums[index], index + 1) ? 1 : -1;
-        return this.memo[index][target] == 1;
+        for (int i = 1; i < nums.length; i++) {
+            for (int j = target; j >= nums[i]; j--) {
+                memo[j] =  memo[j] || memo[j - nums[i]];
+            }
+        }
+
+        return memo[target];
     }
 
     public static void main(String[] args) {
