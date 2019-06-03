@@ -12,8 +12,8 @@ class Solution {
         target = target / 2;
 
         boolean[] memo = new boolean[target + 1];
-        for (int i = 0; i < nums.length; i++) {
-            memo[i] = nums[0] == i;
+        for (int i = 0; i <= target; i++) {
+            memo[i] = (nums[0] == i);
         }
 
         for (int i = 1; i < nums.length; i++) {
