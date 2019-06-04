@@ -1,31 +1,17 @@
 class Solution {
-    int[] memo;
     public int combinationSum4(int[] nums, int target) {
         if (target == 0)
             return 0;
-        this.memo = new int[target + 1];
-        this.memo[0] = 0;
-        return helper(nums, target);
-    }
+        int[] dp = new int[target + 1];
+        dp[0] = 1;
+        for (int i = 1; i <= target; i++) {
+            for (int j = 0; j < nums.length; j++) {
+                if (i >= nums[j])
+                    dp[i] = dp[i] + dp[i - nums[j]];
 
-    public int helper(int[] nums, int target) {
-        if (target < 0)
-            return 0;
-
-        if (target == 0) {
-            return 1;
+            }
         }
-
-        if (this.memo[target] != 0) {
-            return this.memo[target];
-        }
-
-        for (int i = 0; i < nums.length; i++) {
-            if (target >= nums[i])
-                this.memo[target] = this.memo[target] + helper(nums, target - nums[i]);
-        }
-
-        return this.memo[target];
+        return dp[target];
     }
 
     public static void main(String[] args) {
