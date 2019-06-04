@@ -1,22 +1,33 @@
 class Solution {
 
+    int[] memo;
+    int amount;
     public int coinChange(int[] coins, int amount) {
-        if (coins.length == 0) {
+        this.memo = new int[amount + 1];
+        this.memo[0] = 0;
+        for (int i = 1; i < this.memo.length; i++) {
+            this.memo[i] = Integer.MAX_VALUE;
+        }
+        this.amount = amount;
+        return dp(coins, amount);
+    }
+
+    public int dp(int[] coins, int target) {
+        if (target < 0) {
             return -1;
         }
 
-        int[] dp = new int[amount + 1];
-        dp[0] = 0;
+        if (this.memo[target] != Integer.MAX_VALUE)
+            return this.memo[target];
 
-        for (int i = 1; i <= amount; i++) {
-            dp[i] = amount + 1;
-            for (int j = 0; j < coins.length; j++) {
-                if (coins[j] <= i) {
-                    dp[i] = Math.min(dp[i], 1 + dp[i - coins[j]]);
-                }
+        for (int i = 0; i < coins.length; i++) {
+            int temp = dp(coins, target - coins[i]);
+            if (temp >= 0) {
+                this.memo[target] = Math.min(this.memo[target], temp + 1);
             }
         }
-        return dp[amount] > amount ? -1 : dp[amount];
+
+        return this.memo[target] = (this.memo[target] == Integer.MAX_VALUE) ? -1 : this.memo[target];
     }
 
     public static void main(String[] args) {
