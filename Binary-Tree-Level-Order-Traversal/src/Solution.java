@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * Definition for a binary tree node.
@@ -13,22 +15,25 @@ class Solution {
     }
     public List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>>  res = new ArrayList<>();
-        bfs(root, 0, res);
+        if (root == null)
+            return res;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            List<Integer> list = new ArrayList<>();
+            int n = queue.size();
+            for (int i = 0; i < n; i++) {
+                TreeNode node = queue.remove();
+                list.add(node.val);
+
+                if (node.left != null)
+                    queue.add(node.left);
+
+                if (node.right != null)
+                    queue.add(node.right);
+            }
+            res.add(list);
+        }
         return res;
-    }
-
-    public void bfs(TreeNode node, int depth, List<List<Integer>> list) {
-        if (node == null) {
-            return;
-        }
-
-        if (depth >= list.size()) {
-            list.add(new ArrayList<Integer>());
-        }
-
-        list.get(depth).add(node.val);
-
-        bfs(node.left, depth + 1, list);
-        bfs(node.right, depth + 1, list);
     }
 }
