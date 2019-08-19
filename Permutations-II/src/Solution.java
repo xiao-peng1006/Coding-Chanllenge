@@ -35,7 +35,7 @@ class Solution {
             visited[i] = true;
             helper(nums, visited, temp, list);
             visited[i] = false;
-            temp.remove(temp.size()-1);
+            temp.remove(temp.size() - 1);
         }
     }
 
