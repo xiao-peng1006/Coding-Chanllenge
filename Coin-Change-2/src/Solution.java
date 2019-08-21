@@ -4,31 +4,15 @@ import java.util.Collections;
 import java.util.List;
 
 class Solution {
-    int res;
-    int[] memo;
     public int change(int amount, int[] coins) {
-        if (amount == 0) return 1;
-        if (coins.length == 0) return 0;
-        this.res = 0;
-        this.memo = new int[amount];
-        Arrays.sort(coins);
-        helper(amount, coins, coins.length - 1);
-        return res;
-    }
-
-    public void helper(int amount, int[] coins, int start) {
-        if (amount == 0) {
-            this.res++;
-            return;
-        }
-
-        if (amount > 0) {
-            for (int i = start; i >= 0; i--) {
-                amount -= coins[i];
-                helper(amount, coins, i);
-                amount += coins[i];
+        int[] dp = new int[amount + 1];
+        dp[0] = 1;
+        for (int coin : coins) {
+            for (int i = coin; i <= amount; i++) {
+                dp[i] += dp[i - coin];
             }
         }
+        return dp[amount];
     }
 
     public static void main(String[] args) {
